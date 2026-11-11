@@ -1,4 +1,259 @@
----
-layout: home
-title: Home
----
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loop — Daily Timeline Log</title>
+  <meta name="description" content="Log your day in order. Loops bring thoughts back — even as full-screen alarms.">
+  <meta name="google-site-verification" content="DyFAMy89VhwcWuHAOaZSG24vtLMT7edr9ZknETy2UmQ">
+  <link rel="canonical" href="https://devnoyo0123.github.io/">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icon-180.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://devnoyo0123.github.io/">
+  <meta property="og:title" content="Loop — Daily Timeline Log">
+  <meta property="og:description" content="Log your day in order. Loops bring thoughts back — even as full-screen alarms.">
+  <meta property="og:image" content="https://devnoyo0123.github.io/assets/icon.png">
+  <style>
+    :root {
+      --bg: #0B0D12;
+      --surface: #12151D;
+      --surface-hi: #1A1E2A;
+      --text: #E8EAF2;
+      --dim: #8B90A0;
+      --lavender: #A78BFA;
+      --mint: #7DE2C3;
+      --line: #262B3A;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Pretendard", "Noto Sans KR", Roboto, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    .aurora {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background:
+        radial-gradient(600px 400px at 15% 0%, rgba(167, 139, 250, .13), transparent 70%),
+        radial-gradient(700px 500px at 90% 25%, rgba(125, 226, 195, .07), transparent 70%),
+        radial-gradient(800px 600px at 50% 100%, rgba(167, 139, 250, .06), transparent 70%);
+    }
+    .wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
+
+    .t { display: none; }
+    html[data-lang="en"] .t-en, html[data-lang="zh"] .t-zh, html[data-lang="es"] .t-es, html[data-lang="hi"] .t-hi, html[data-lang="ja"] .t-ja, html[data-lang="vi"] .t-vi, html[data-lang="it"] .t-it, html[data-lang="ko"] .t-ko { display: inline; }
+
+    nav {
+      position: sticky; top: 0; z-index: 10;
+      backdrop-filter: blur(12px);
+      background: rgba(11, 13, 18, .78);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .brand { display: flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; font-weight: 700; font-size: 1.05rem; letter-spacing: .02em; }
+    .brand img { width: 28px; height: 28px; border-radius: 8px; }
+
+    .lang-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding-top: 20px; }
+    .lang-btn {
+      border: 1px solid var(--line); background: transparent; color: var(--dim);
+      font: inherit; font-size: .82rem; padding: 5px 12px; border-radius: 999px; cursor: pointer;
+    }
+    .lang-btn:hover { color: var(--text); border-color: var(--lavender); }
+    .lang-btn.on { color: var(--lavender); border-color: var(--lavender); background: rgba(167, 139, 250, .1); }
+
+    .hero { text-align: center; padding: 48px 0 56px; }
+    .hero .icon {
+      width: 112px; height: 112px; border-radius: 28px;
+      box-shadow: 0 0 60px rgba(167, 139, 250, .35), 0 12px 40px rgba(0, 0, 0, .5);
+      margin-bottom: 32px;
+    }
+    h1 {
+      font-size: clamp(1.8rem, 4.6vw, 2.8rem); line-height: 1.28; font-weight: 800; letter-spacing: -0.02em;
+      background: linear-gradient(100deg, var(--lavender), var(--mint));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      max-width: 720px; margin: 0 auto;
+    }
+    .hero p.sub { color: var(--dim); font-size: clamp(1rem, 2.4vw, 1.15rem); max-width: 560px; margin: 20px auto 0; }
+    .badge-row { margin-top: 36px; display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .badge-row a { display: inline-block; transition: transform .15s ease; }
+    .badge-row a:hover { transform: translateY(-2px) scale(1.02); }
+    .badge-row img { height: 64px; width: auto; border-radius: 8px; }
+    .guide-link { color: var(--lavender); text-decoration: none; font-size: .95rem; display: inline-block; margin-top: 20px; }
+    .guide-link:hover { text-decoration: underline; }
+    .trust {
+      margin: 28px auto 0; display: inline-flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+      color: var(--dim); font-size: .85rem;
+      border: 1px solid var(--line); border-radius: 999px; padding: 8px 20px; background: var(--surface);
+    }
+    .dot { color: var(--lavender); }
+
+    .shots { padding: 48px 0 24px; }
+    .shots-row { display: flex; gap: 28px; justify-content: center; flex-wrap: wrap; }
+    .shot { text-align: center; width: 240px; }
+    .shot img {
+      width: 240px; border-radius: 26px; border: 1px solid var(--line);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, .55);
+    }
+    .shot figcaption { margin-top: 14px; color: var(--dim); font-size: .88rem; }
+    @media (max-width: 560px) {
+      .shots-row { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; scroll-snap-type: x mandatory; padding-bottom: 8px; }
+      .shot { flex: 0 0 auto; scroll-snap-align: center; }
+    }
+
+    .features { padding: 56px 0; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 16px; }
+    .card {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 26px 24px;
+      transition: border-color .15s ease, background .15s ease;
+    }
+    .card:hover { border-color: rgba(167, 139, 250, .45); background: var(--surface-hi); }
+    .card .ico {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px; border-radius: 12px; font-size: 1.3rem;
+      background: rgba(167, 139, 250, .12); margin-bottom: 14px;
+    }
+    .card h3 { font-size: 1.02rem; font-weight: 700; margin-bottom: 6px; }
+    .card p { color: var(--dim); font-size: .92rem; }
+
+    .cta { text-align: center; padding: 72px 0 88px; border-top: 1px solid var(--line); }
+    .cta h2 { font-size: clamp(1.4rem, 3.6vw, 2rem); font-weight: 800; letter-spacing: -0.02em; }
+    .cta .badge-row { margin-top: 28px; }
+
+    footer { border-top: 1px solid var(--line); padding: 32px 0 48px; color: var(--dim); font-size: .85rem; text-align: center; }
+    footer a { color: var(--dim); text-decoration: none; }
+    footer a:hover { color: var(--lavender); }
+    footer .links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 14px; }
+  </style>
+</head>
+<body>
+  <div class="aurora"></div>
+
+  <nav>
+    <div class="wrap nav-inner">
+      <a class="brand" href="/"><img src="/assets/icon.png" alt="">Loop</a>
+    </div>
+  </nav>
+
+  <main class="wrap">
+
+    <div class="lang-row"><button class="lang-btn" data-set-lang="en">English</button><button class="lang-btn" data-set-lang="zh">中文</button><button class="lang-btn" data-set-lang="es">Español</button><button class="lang-btn" data-set-lang="hi">हिन्दी</button><button class="lang-btn" data-set-lang="ja">日本語</button><button class="lang-btn" data-set-lang="vi">Tiếng Việt</button><button class="lang-btn" data-set-lang="it">Italiano</button><button class="lang-btn" data-set-lang="ko">한국어</button></div>
+
+    <section class="hero">
+      <img class="icon" src="/assets/icon.png" alt="Loop app icon">
+      <h1><span class="t t-en">A journal that brings your past thoughts back.</span><span class="t t-zh">一本让过去的想法重新回来的记录本。写下此刻的想法并设置循环，到了你定的时间，这条记录会再次出现。</span><span class="t t-es">Un diario que hace volver tus pensamientos pasados.</span><span class="t t-hi">एक डायरी जो आपके बीते विचारों को फिर से लौटाती है।</span><span class="t t-ja">過ぎた考えをもう一度呼び戻す記録帳です。今の考えを書いてループをかけておくと、決めたときにその記録が戻ってきます。</span><span class="t t-vi">Cuốn sổ giúp những suy nghĩ đã qua quay trở lại.</span><span class="t t-it">Un diario che fa tornare i tuoi pensieri passati.</span><span class="t t-ko">지나간 생각을 다시 돌아오게 하는 기록장이에요.</span></h1>
+      <p class="sub"><span class="t t-en">Log your day in order. Loops bring thoughts back — even as full-screen alarms.</span><span class="t t-zh">按顺序积累的一天记录。用续写接住流逝的想法，让循环提醒带你回来。</span><span class="t t-es">Registra tu día en orden. Continúa un pensamiento y los bucles te lo devuelven.</span><span class="t t-hi">अपने दिन को क्रम में लिखें. पुराने विचारों को जोड़ें, लूप उन्हें वापस लाएँ.</span><span class="t t-ja">思った順に積もる一日ログ。過ぎた思考は続き書きでつなぎ、ループ通知でまた戻る。</span><span class="t t-vi">Ghi lại ngày theo trình tự. Viết tiếp suy nghĩ cũ, vòng lặp đưa bạn quay lại.</span><span class="t t-it">Registra il tuo giorno in ordine. I loop riportano i pensieri persi.</span><span class="t t-ko">순서대로 쌓는 하루 기록. 루프는 전체 화면 알람처럼 — 확인할 때까지 다시 돌아옵니다.</span></p>
+      <div class="badge-row"><span class="t t-en"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-en.png" alt="Get it on Google Play"></a></span><span class="t t-zh"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-zh.png" alt="在 Google Play 中获取"></a></span><span class="t t-es"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-es.png" alt="Disponible en Google Play"></a></span><span class="t t-hi"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-hi.png" alt="Google Play पर पाएं"></a></span><span class="t t-ja"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-ja.png" alt="Google Play で手に入れよう"></a></span><span class="t t-vi"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-vi.png" alt="Có trên Google Play"></a></span><span class="t t-it"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-it.png" alt="Disponibile su Google Play"></a></span><span class="t t-ko"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-ko.png" alt="Google Play에서 다운로드"></a></span></div>
+      <a class="guide-link" href="https://devnoyo0123.github.io/loop-guide/" target="_blank" rel="noopener">📖 <span class="t t-en">How to use (with pictures)</span><span class="t t-zh">使用方法（图文）</span><span class="t t-es">Cómo usarlo (con imágenes)</span><span class="t t-hi">उपयोग कैसे करें (चित्रों के साथ)</span><span class="t t-ja">使い方（画像つき）</span><span class="t t-vi">Cách dùng (có hình ảnh)</span><span class="t t-it">Come si usa (con immagini)</span><span class="t t-ko">사용법(그림 안내)</span></a>
+      <div><span class="trust"><span class="t t-en">No server · no account · logs stay on your phone</span><span class="t t-zh">无服务器 · 无账号 · 记录只留在你的手机里</span><span class="t t-es">Sin servidor · sin cuenta · los registros quedan en tu teléfono</span><span class="t t-hi">कोई सर्वर नहीं · कोई खाता नहीं · लॉग सिर्फ़ आपके फ़ोन पर</span><span class="t t-ja">サーバーなし · アカウントなし · 記録は端末の中だけ</span><span class="t t-vi">Không máy chủ · không tài khoản · nhật ký nằm trên máy bạn</span><span class="t t-it">Nessun server · nessun account · i log restano sul telefono</span><span class="t t-ko">서버 없음 · 계정 없음 · 기록은 내 폰에만</span></span></div>
+    </section>
+
+    <section class="shots">
+      <div class="shots-row">
+        <figure class="shot">
+          <img data-shot="00_timeline" src="/assets/shots/en/00_timeline.webp" alt="" loading="lazy">
+          <figcaption><span class="t t-en">What Loop is</span><span class="t t-zh">Loop 是什么</span><span class="t t-es">Qué es Loop</span><span class="t t-hi">Loop क्या है</span><span class="t t-ja">Loopとは</span><span class="t t-vi">Loop là gì</span><span class="t t-it">Cos&#x27;è Loop</span><span class="t t-ko">Loop는 이런 앱이에요</span></figcaption>
+        </figure><figure class="shot">
+          <img data-shot="02_loop" src="/assets/shots/en/02_loop.webp" alt="" loading="lazy">
+          <figcaption><span class="t t-en">Set a loop — bring it back</span><span class="t t-zh">设置循环 — 让它回来</span><span class="t t-es">Crear un bucle — que vuelva</span><span class="t t-hi">लूप लगाएं — फिर लौटाएं</span><span class="t t-ja">ループをかける — もう一度戻す</span><span class="t t-vi">Đặt vòng lặp — cho nó quay lại</span><span class="t t-it">Impostare un loop — farla tornare</span><span class="t t-ko">루프 걸기 — 다시 돌아오게</span></figcaption>
+        </figure><figure class="shot">
+          <img data-shot="04_flow" src="/assets/shots/en/04_flow.webp" alt="" loading="lazy">
+          <figcaption><span class="t t-en">Continue and view the chain</span><span class="t t-zh">续写与查看循环</span><span class="t t-es">Continuar y ver la cadena</span><span class="t t-hi">आगे लिखें और श्रृंखला देखें</span><span class="t t-ja">続きを書く・ループを見る</span><span class="t t-vi">Viết tiếp và xem vòng lặp</span><span class="t t-it">Continuare e vedere la catena</span><span class="t t-ko">이어 쓰기와 루프 보기</span></figcaption>
+        </figure><figure class="shot">
+          <img data-shot="07_share" src="/assets/shots/en/07_share.webp" alt="" loading="lazy">
+          <figcaption><span class="t t-en">Share Loop — to the person next to you</span><span class="t t-zh">分享循环 — 给身边的人</span><span class="t t-es">Compartir bucle — a quien tienes al lado</span><span class="t t-hi">Loop साझा करें — पास वाले को</span><span class="t t-ja">ループを共有 — 隣の人へ</span><span class="t t-vi">Chia sẻ vòng lặp — cho người bên cạnh</span><span class="t t-it">Condividi Loop — a chi ti sta accanto</span><span class="t t-ko">Loop 공유 — 옆 사람에게</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="grid">
+        <div class="card">
+          <span class="ico">↩</span>
+          <h3><span class="t t-en">Set a loop — bring it back</span><span class="t t-zh">设置循环 — 让它回来</span><span class="t t-es">Crear un bucle — que vuelva</span><span class="t t-hi">लूप लगाएं — फिर लौटाएं</span><span class="t t-ja">ループをかける — もう一度戻す</span><span class="t t-vi">Đặt vòng lặp — cho nó quay lại</span><span class="t t-it">Impostare un loop — farla tornare</span><span class="t t-ko">루프 걸기 — 다시 돌아오게</span></h3>
+          <p><span class="t t-en">Log ⋯ › ↩ Loop. &#x27;Once&#x27; brings it back one time (a time based on the forgetting curve is suggested). A notification nudges once; an alarm rings until you dismiss it.</span><span class="t t-zh">记录的 ⋯ › ↩ 循环。“一次”会在指定时间回来一次（会按遗忘曲线推荐时间）。通知安静地提醒一次，闹钟会一直响到你确认。</span><span class="t t-es">Registro ⋯ › ↩ Bucle. &#x27;Una vez&#x27; lo trae de vuelta una vez (se sugiere una hora según la curva del olvido). Una notificación avisa una vez; una alarma suena hasta que la confirmas.</span><span class="t t-hi">लॉग का ⋯ › ↩ Loop। &#x27;एक बार&#x27; तय समय पर एक बार लौटाता है (भूलने के वक्र के हिसाब से समय सुझाया जाता है)। नोटिफिकेशन एक बार याद दिलाता है; अलार्म पुष्टि करने तक बजता है।</span><span class="t t-ja">記録の ⋯ › ↩ ループ。「1回」は決めた時刻に一度戻ってきます（忘却曲線に合わせた時刻をおすすめします）。通知は静かに一度、アラームは確認するまで鳴ります。</span><span class="t t-vi">Ghi chép ⋯ › ↩ Vòng lặp. &#x27;Một lần&#x27; quay lại một lần (gợi ý giờ theo đường cong quên lãng). Thông báo nhắc nhẹ một lần; báo thức reo cho đến khi bạn xác nhận.</span><span class="t t-it">Nota ⋯ › ↩ Loop. &#x27;Una volta&#x27; la fa tornare una volta (viene suggerito un orario secondo la curva dell&#x27;oblio). Una notifica avvisa una volta; una sveglia suona finché non confermi.</span><span class="t t-ko">기록의 ⋯ › ↩ Loop. &#x27;한 번&#x27;은 정한 시각에 한 번 돌아와요(망각곡선에 맞춘 시각을 추천해요). 알림은 조용히 한 번, 알람은 확인할 때까지 울려요.</span></p>
+        </div><div class="card">
+          <span class="ico">🔁</span>
+          <h3><span class="t t-en">Repeating loops</span><span class="t t-zh">重复循环</span><span class="t t-es">Bucles que se repiten</span><span class="t t-hi">रिपीट लूप</span><span class="t t-ja">繰り返しループ</span><span class="t t-vi">Vòng lặp lặp lại</span><span class="t t-it">Loop ripetuti</span><span class="t t-ko">반복 루프</span></h3>
+          <p><span class="t t-en">Choose &#x27;Repeat&#x27; in the loop sheet to bring it back every 10 minutes, daily, on weekdays, monthly and more. Each time, a spot to continue the log appears. To end it: ⋯ › Stop loop.</span><span class="t t-zh">在循环面板中选择“重复”，就会每 10 分钟、每天、工作日、每月等持续回来。每次回来都会留出续写的位置。要停止：⋯ › 停止循环。</span><span class="t t-es">Elige &#x27;Repetir&#x27; para que vuelva cada 10 minutos, a diario, entre semana, cada mes y más. Cada vez aparece un hueco para continuar el registro. Para terminar: ⋯ › Detener bucle.</span><span class="t t-hi">लूप शीट में &#x27;रिपीट&#x27; चुनें तो हर 10 मिनट, रोज़, कार्यदिवस, हर महीने आदि पर लौटता रहेगा। हर बार आगे लिखने की जगह बनती है। रोकने के लिए: ⋯ › लूप रोकें।</span><span class="t t-ja">ループシートで「繰り返し」を選ぶと、10分ごと・毎日・平日・毎月などで戻り続けます。戻るたびに続きを書く場所ができます。やめるには ⋯ › ループを止める。</span><span class="t t-vi">Chọn &#x27;Lặp lại&#x27; để ghi chép quay lại mỗi 10 phút, hằng ngày, ngày thường, hằng tháng… Mỗi lần quay lại sẽ có chỗ để viết tiếp. Để dừng: ⋯ › Dừng vòng lặp.</span><span class="t t-it">Scegli &#x27;Ripeti&#x27; per farla tornare ogni 10 minuti, ogni giorno, nei giorni feriali, ogni mese e altro. Ogni volta compare uno spazio per continuare. Per finire: ⋯ › Ferma il loop.</span><span class="t t-ko">루프 시트에서 &#x27;반복&#x27;을 고르면 10분마다·매일·평일·매달처럼 계속 돌아와요. 돌아올 때마다 그 기록에 이어 쓸 자리가 생겨요. 그만두려면 ⋯ › 루프 중지.</span></p>
+        </div><div class="card">
+          <span class="ico">⛓</span>
+          <h3><span class="t t-en">Continue and view the chain</span><span class="t t-zh">续写与查看循环</span><span class="t t-es">Continuar y ver la cadena</span><span class="t t-hi">आगे लिखें और श्रृंखला देखें</span><span class="t t-ja">続きを書く・ループを見る</span><span class="t t-vi">Viết tiếp và xem vòng lặp</span><span class="t t-it">Continuare e vedere la catena</span><span class="t t-ko">이어 쓰기와 루프 보기</span></h3>
+          <p><span class="t t-en">Write on a log that came back and it joins a chain with a purple line. Use ⋯ › View loop chain to see it from the first log in one line. Tap &#x27;Back to timeline&#x27; at the top to return.</span><span class="t t-zh">在回来的记录上续写，会形成用紫色线连接的链。⋯ › 查看循环 可把从第一条到现在的记录排成一行。点按顶部按钮返回全部时间线。</span><span class="t t-es">Escribe sobre un registro que volvió y se une a una cadena con una línea morada. Con ⋯ › Ver bucle lo ves desde el primer registro en una sola línea. El botón de arriba te devuelve a la línea de tiempo.</span><span class="t t-hi">लौटे हुए लॉग पर आगे लिखने से बैंगनी रेखा से जुड़ी श्रृंखला बनती है। ⋯ › लूप श्रृंखला देखें से पहले लॉग से अब तक एक लाइन में देखें। ऊपर का बटन पूरी टाइमलाइन पर लौटाता है।</span><span class="t t-ja">戻ってきた記録に続きを書くと、紫の線でつながったチェーンになります。⋯ › ループを見る で最初の記録から一列で見られます。上のボタンで全体に戻ります。</span><span class="t t-vi">Viết tiếp trên ghi chép vừa quay lại để tạo chuỗi nối bằng đường màu tím. ⋯ › Xem vòng lặp cho thấy từ ghi chép đầu tiên trên một dòng. Nút phía trên đưa bạn về dòng thời gian.</span><span class="t t-it">Scrivi su una nota tornata e si unisce a una catena con una linea viola. Con ⋯ › Vedi la catena la vedi dalla prima nota in una sola riga. Il pulsante in alto ti riporta alla timeline.</span><span class="t t-ko">돌아온 기록에 이어 쓰면 보라색 줄로 이어진 사슬이 돼요. ⋯ › 루프 보기로 처음 기록부터 지금까지 한 줄로 모아 봐요. 위쪽 &#x27;되돌아가기&#x27;를 누르면 전체 타임라인으로 돌아와요.</span></p>
+        </div><div class="card">
+          <span class="ico">⏰</span>
+          <h3><span class="t t-en">Let alarms show on screen</span><span class="t t-zh">让闹钟显示在屏幕上</span><span class="t t-es">Que las alarmas aparezcan en pantalla</span><span class="t t-hi">अलार्म स्क्रीन पर दिखाएं</span><span class="t t-ja">アラームを画面に表示する</span><span class="t t-vi">Cho báo thức hiện trên màn hình</span><span class="t t-it">Far apparire gli allarmi sullo schermo</span><span class="t t-ko">알람이 화면에 뜨게 하기</span></h3>
+          <p><span class="t t-en">For alarms to appear over the lock screen, allow &#x27;full-screen notifications&#x27;. When Loop asks, tap Open settings and turn Loop on. Without it, alarms only make a sound. Try Settings › Preview a fire.</span><span class="t t-zh">要让闹钟显示在锁屏之上，需要允许“全屏通知”。出现提示时点按 打开设置 › 开启 Loop。关闭时闹钟只会响铃。可以用 设置 › 触发体验 试一试。</span><span class="t t-es">Para que las alarmas aparezcan sobre la pantalla de bloqueo, permite las &#x27;notificaciones a pantalla completa&#x27;. Cuando Loop lo pida, toca Abrir ajustes y activa Loop. Sin eso, solo suenan. Pruébalo con Ajustes › Probar un aviso.</span><span class="t t-hi">अलार्म लॉक स्क्रीन के ऊपर दिखे, इसके लिए &#x27;फ़ुल-स्क्रीन सूचनाएं&#x27; की अनुमति दें। पूछे जाने पर सेटिंग खोलें › Loop चालू करें। बंद होने पर अलार्म सिर्फ़ बजता है। सेटिंग › टेस्ट करें से आज़माएं।</span><span class="t t-ja">アラームをロック画面の上に表示するには「全画面通知」の許可が必要です。案内が出たら 設定を開く › Loop をオン。オフのままだと音だけ鳴ります。設定 › 発火テスト で試せます。</span><span class="t t-vi">Để báo thức hiện trên màn hình khóa, hãy cho phép &#x27;thông báo toàn màn hình&#x27;. Khi Loop nhắc, chạm Mở cài đặt rồi bật Loop. Nếu tắt, báo thức chỉ phát âm thanh. Thử bằng Cài đặt › Thử kích hoạt.</span><span class="t t-it">Perché gli allarmi compaiano sopra la schermata di blocco, consenti le &#x27;notifiche a schermo intero&#x27;. Quando Loop lo chiede, tocca Apri impostazioni e attiva Loop. Senza, suonano soltanto. Provalo con Impostazioni › Prova un avviso.</span><span class="t t-ko">알람이 잠금 화면 위로 뜨려면 &#x27;전체 화면 알림&#x27; 허용이 필요해요. 안내가 뜨면 설정 열기 › Loop 켜기. 꺼져 있으면 소리만 나요. 설정 › 발화 체험으로 미리 확인해 보세요.</span></p>
+        </div><div class="card">
+          <span class="ico">📡</span>
+          <h3><span class="t t-en">Share Loop — to the person next to you</span><span class="t t-zh">分享循环 — 给身边的人</span><span class="t t-es">Compartir bucle — a quien tienes al lado</span><span class="t t-hi">Loop साझा करें — पास वाले को</span><span class="t t-ja">ループを共有 — 隣の人へ</span><span class="t t-vi">Chia sẻ vòng lặp — cho người bên cạnh</span><span class="t t-it">Condividi Loop — a chi ti sta accanto</span><span class="t t-ko">Loop 공유 — 옆 사람에게</span></h3>
+          <p><span class="t t-en">Log ⋯ › Share Loop › Send to a nearby device. It goes straight to the phone next to you, with no internet or server. The receiver turns on Settings › Receive from nearby devices. Location is left out by default.</span><span class="t t-zh">记录的 ⋯ › 分享循环 › 发送到附近设备。无需互联网和服务器，直接送到身边的手机。接收方请打开 设置 › 从附近设备接收。默认不发送位置。</span><span class="t t-es">Registro ⋯ › Compartir bucle › Enviar a un dispositivo cercano. Llega directo al teléfono de al lado, sin internet ni servidor. Quien recibe activa Ajustes › Recibir de dispositivos cercanos. La ubicación se excluye por defecto.</span><span class="t t-hi">लॉग का ⋯ › Loop साझा करें › पास के डिवाइस पर भेजें। बिना इंटरनेट या सर्वर के सीधे पास के फ़ोन पर जाता है। पाने वाला सेटिंग › पास के डिवाइस से पाएं चालू करे। जगह डिफ़ॉल्ट रूप से नहीं भेजी जाती।</span><span class="t t-ja">記録の ⋯ › ループを共有 › 近くのデバイスに送る。インターネットやサーバーを通さず隣のスマホへ直接届きます。受け取る側は 設定 › 近くのデバイスから受け取る をオンに。位置は初期設定で除いて送ります。</span><span class="t t-vi">Ghi chép ⋯ › Chia sẻ vòng lặp › Gửi tới thiết bị gần đây. Đến thẳng điện thoại bên cạnh, không cần internet hay máy chủ. Người nhận bật Cài đặt › Nhận từ thiết bị gần đây. Mặc định không gửi vị trí.</span><span class="t t-it">Nota ⋯ › Condividi Loop › Invia a un dispositivo vicino. Arriva dritto al telefono accanto, senza internet né server. Chi riceve attiva Impostazioni › Ricevi da dispositivi vicini. La posizione è esclusa di default.</span><span class="t t-ko">기록의 ⋯ › Loop 공유 › 가까운 기기로 보내기. 인터넷·서버 없이 옆 폰으로 바로 가요. 받는 쪽은 설정 › 가까운 기기에서 받기를 켜 두세요. 위치는 기본으로 빼고 보내요.</span></p>
+        </div><div class="card">
+          <span class="ico">🔒</span>
+          <h3><span class="t t-en">Backup — export and import</span><span class="t t-zh">备份 — 全部导出与导入</span><span class="t t-es">Copia — exportar e importar</span><span class="t t-hi">बैकअप — एक्सपोर्ट और इंपोर्ट</span><span class="t t-ja">バックアップ — エクスポートと読み込み</span><span class="t t-vi">Sao lưu — xuất và nhập</span><span class="t t-it">Backup — esportare e importare</span><span class="t t-ko">백업 — 전체 내보내기·가져오기</span></h3>
+          <p><span class="t t-en">Settings › Export everything saves logs, photos, videos and repeats into one .looplog file. On a new phone, use Settings › Import — logs you already have are skipped. Export now and then.</span><span class="t t-zh">设置 › 全部导出 会把记录、照片、视频和重复设置保存成一个 .looplog 文件。在新手机上用 设置 › 导入，已有的记录会被跳过。记得不时导出一次。</span><span class="t t-es">Ajustes › Exportar todo guarda registros, fotos, vídeos y repeticiones en un archivo .looplog. En un teléfono nuevo usa Ajustes › Importar; se omiten los registros que ya tienes. Exporta de vez en cuando.</span><span class="t t-hi">सेटिंग › सब एक्सपोर्ट करें से लॉग, फ़ोटो, वीडियो और रिपीट एक .looplog फ़ाइल में सहेजें। नए फ़ोन पर सेटिंग › इंपोर्ट करें — पहले से मौजूद लॉग छोड़ दिए जाते हैं। समय-समय पर एक्सपोर्ट करते रहें।</span><span class="t t-ja">設定 › すべてエクスポート で記録・写真・動画・繰り返しを .looplog ファイル1つに保存します。新しいスマホでは 設定 › 読み込む。すでにある記録はスキップされます。ときどきエクスポートしておきましょう。</span><span class="t t-vi">Cài đặt › Xuất tất cả lưu ghi chép, ảnh, video và lặp lại vào một tệp .looplog. Trên máy mới dùng Cài đặt › Nhập; ghi chép đã có sẽ được bỏ qua. Thỉnh thoảng hãy xuất một lần.</span><span class="t t-it">Impostazioni › Esporta tutto salva note, foto, video e ripetizioni in un file .looplog. Su un nuovo telefono usa Impostazioni › Importa: le note già presenti vengono saltate. Esporta ogni tanto.</span><span class="t t-ko">설정 › 전체 내보내기로 기록·사진·동영상·반복을 .looplog 파일 하나로 저장해요. 새 폰에서는 설정 › 가져오기 — 이미 있는 기록은 건너뛰어요. 가끔씩 내보내 두세요.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <h2><span class="t t-en">Write today&#x27;s thought — meet it again tomorrow.</span><span class="t t-zh">今天的想法，明天再见面。</span><span class="t t-es">Escribe hoy el pensamiento — reencuéntralo mañana.</span><span class="t t-hi">आज का विचार लिखें — कल दोबारा मिलें।</span><span class="t t-ja">今日のひと言を、明日もう一度。</span><span class="t t-vi">Ghi lại suy nghĩ hôm nay — gặp lại vào ngày mai.</span><span class="t t-it">Scrivi oggi il pensiero — ritrovalo domani.</span><span class="t t-ko">오늘의 생각을, 내일 다시 만나보세요.</span></h2>
+      <div class="badge-row"><span class="t t-en"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-en.png" alt="Get it on Google Play"></a></span><span class="t t-zh"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-zh.png" alt="在 Google Play 中获取"></a></span><span class="t t-es"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-es.png" alt="Disponible en Google Play"></a></span><span class="t t-hi"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-hi.png" alt="Google Play पर पाएं"></a></span><span class="t t-ja"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-ja.png" alt="Google Play で手に入れよう"></a></span><span class="t t-vi"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-vi.png" alt="Có trên Google Play"></a></span><span class="t t-it"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-it.png" alt="Disponibile su Google Play"></a></span><span class="t t-ko"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-ko.png" alt="Google Play에서 다운로드"></a></span></div>
+      <a class="guide-link" href="https://devnoyo0123.github.io/loop-guide/" target="_blank" rel="noopener">📖 <span class="t t-en">How to use (with pictures)</span><span class="t t-zh">使用方法（图文）</span><span class="t t-es">Cómo usarlo (con imágenes)</span><span class="t t-hi">उपयोग कैसे करें (चित्रों के साथ)</span><span class="t t-ja">使い方（画像つき）</span><span class="t t-vi">Cách dùng (có hình ảnh)</span><span class="t t-it">Come si usa (con immagini)</span><span class="t t-ko">사용법(그림 안내)</span></a>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="links"><a href="https://devnoyo0123.github.io/loop-guide/"><span class="t t-en">Guide</span><span class="t t-zh">指南</span><span class="t t-es">Guía</span><span class="t t-hi">गाइड</span><span class="t t-ja">ガイド</span><span class="t t-vi">Hướng dẫn</span><span class="t t-it">Guida</span><span class="t t-ko">사용법</span></a><a href="https://devnoyo0123.github.io/loop-privacy/"><span class="t t-en">Privacy Policy</span><span class="t t-zh">隐私政策</span><span class="t t-es">Política de privacidad</span><span class="t t-hi">गोपनीयता नीति</span><span class="t t-ja">プライバシーポリシー</span><span class="t t-vi">Chính sách quyền riêng tư</span><span class="t t-it">Informativa sulla privacy</span><span class="t t-ko">개인정보처리방침</span></a><a href="mailto:theloopapp.official@gmail.com"><span class="t t-en">Contact</span><span class="t t-zh">联系</span><span class="t t-es">Contacto</span><span class="t t-hi">संपर्क</span><span class="t t-ja">お問い合わせ</span><span class="t t-vi">Liên hệ</span><span class="t t-it">Contatti</span><span class="t t-ko">문의</span></a></div>
+      <div>© 2026 Loop</div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var LANGS = ["en", "zh", "es", "hi", "ja", "vi", "it", "ko"];
+      var TITLES = {"en": "Loop — Daily Timeline Log", "zh": "Loop — 按顺序记录每一天", "es": "Loop — Tu día, en orden", "hi": "Loop — हर दिन, अपने क्रम में", "ja": "Loop — 時間順の一日ログ", "vi": "Loop — Nhật ký theo trình tự", "it": "Loop — Il giorno in ordine", "ko": "Loop : 흘러간 하루의 기록"};
+      var BADGES = {"en": "/assets/badge-en.png", "zh": "/assets/badge-zh.png", "es": "/assets/badge-es.png", "hi": "/assets/badge-hi.png", "ja": "/assets/badge-ja.png", "vi": "/assets/badge-vi.png", "it": "/assets/badge-it.png", "ko": "/assets/badge-ko.png"};
+      var ALTS = {"en": "Get it on Google Play", "zh": "在 Google Play 中获取", "es": "Disponible en Google Play", "hi": "Google Play पर पाएं", "ja": "Google Play で手に入れよう", "vi": "Có trên Google Play", "it": "Disponibile su Google Play", "ko": "Google Play에서 다운로드"};
+
+      function detect() {
+        var n = (navigator.language || "en").toLowerCase();
+        if (n.indexOf("zh") === 0) return "zh";
+        for (var i = 0; i < LANGS.length; i++) {
+          if (n.indexOf(LANGS[i]) === 0) return LANGS[i];
+        }
+        return "en";
+      }
+
+      function apply(l) {
+        document.documentElement.dataset.lang = l;
+        document.documentElement.lang = l;
+        document.title = TITLES[l];
+        document.querySelectorAll("[data-set-lang]").forEach(function (b) {
+          b.classList.toggle("on", b.dataset.setLang === l);
+        });
+        document.querySelectorAll("[data-badge]").forEach(function (img) {
+          img.src = BADGES[l];
+          img.alt = ALTS[l];
+        });
+        document.querySelectorAll("[data-shot]").forEach(function (img) {
+          img.src = "/assets/shots/" + (l === "ko" ? "ko" : "en") + "/" + img.dataset.shot + ".webp";
+        });
+        try { localStorage.setItem("loop-lang", l); } catch (e) {}
+      }
+
+      var saved = null;
+      try { saved = localStorage.getItem("loop-lang"); } catch (e) {}
+      var lang = saved && LANGS.indexOf(saved) >= 0 ? saved : detect();
+
+      document.querySelectorAll("[data-set-lang]").forEach(function (b) {
+        b.addEventListener("click", function () { apply(b.dataset.setLang); });
+      });
+      apply(lang);
+    })();
+  </script>
+</body>
+</html>
