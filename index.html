@@ -240,7 +240,7 @@
           img.alt = ALTS[l];
         });
         document.querySelectorAll("[data-shot]").forEach(function (img) {
-          img.src = "/assets/shots/" + (l === "ko" ? "ko" : "en") + "/" + img.dataset.shot + ".webp";
+          img.src = "/assets/shots/" + l + "/" + img.dataset.shot + ".webp";
         });
         try { localStorage.setItem("loop-lang", l); } catch (e) {}
       }
