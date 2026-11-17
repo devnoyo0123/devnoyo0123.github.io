@@ -125,6 +125,37 @@
     footer a { color: var(--dim); text-decoration: none; }
     footer a:hover { color: var(--lavender); }
     footer .links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 14px; }
+
+    .video { padding: 8px 0 56px; text-align: center; }
+    .video-title { font-size: clamp(1.2rem, 3vw, 1.5rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 22px; }
+    .video-frame {
+      max-width: 720px; margin: 0 auto; aspect-ratio: 16 / 9;
+      border-radius: 20px; overflow: hidden; border: 1px solid var(--line);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, .55); background: var(--surface);
+    }
+    .video-frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+    .mcp { padding: 0 0 64px; }
+    .mcp-panel {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 22px;
+      padding: 34px 30px; max-width: 760px; margin: 0 auto;
+    }
+    .mcp-panel:hover { border-color: rgba(167, 139, 250, .45); }
+    .mcp-panel .ico {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px; border-radius: 12px; font-size: 1.3rem;
+      background: rgba(167, 139, 250, .12); margin-bottom: 14px;
+    }
+    .mcp-panel h2 { font-size: clamp(1.2rem, 3vw, 1.5rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 10px; }
+    .mcp-panel p { color: var(--dim); font-size: .95rem; margin-bottom: 18px; }
+    .mcp-panel .steps { margin: 0 0 18px; padding-left: 22px; font-size: .93rem; display: grid; gap: 8px; }
+    .mcp-panel .steps li::marker { color: var(--lavender); font-weight: 700; }
+    .mcp-panel .install {
+      background: var(--bg); border: 1px solid var(--line); border-radius: 12px;
+      padding: 14px 16px; margin-bottom: 4px;
+      font: 12.5px/1.7 ui-monospace, SFMono-Regular, Menlo, monospace;
+      color: var(--mint); overflow-x: auto; white-space: pre;
+    }
   </style>
 </head>
 <body>
@@ -147,6 +178,11 @@
       <div class="badge-row"><span class="t t-en"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-en.png" alt="Get it on Google Play"></a></span><span class="t t-zh"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-zh.png" alt="在 Google Play 中获取"></a></span><span class="t t-es"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-es.png" alt="Disponible en Google Play"></a></span><span class="t t-hi"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-hi.png" alt="Google Play पर पाएं"></a></span><span class="t t-ja"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-ja.png" alt="Google Play で手に入れよう"></a></span><span class="t t-vi"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-vi.png" alt="Có trên Google Play"></a></span><span class="t t-it"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-it.png" alt="Disponibile su Google Play"></a></span><span class="t t-ko"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-ko.png" alt="Google Play에서 다운로드"></a></span></div>
       <a class="guide-link" href="https://devnoyo0123.github.io/loop-guide/" target="_blank" rel="noopener">📖 <span class="t t-en">How to use (with pictures)</span><span class="t t-zh">使用方法（图文）</span><span class="t t-es">Cómo usarlo (con imágenes)</span><span class="t t-hi">उपयोग कैसे करें (चित्रों के साथ)</span><span class="t t-ja">使い方（画像つき）</span><span class="t t-vi">Cách dùng (có hình ảnh)</span><span class="t t-it">Come si usa (con immagini)</span><span class="t t-ko">사용법(그림 안내)</span></a>
       <div><span class="trust"><span class="t t-en">No server · no account · logs stay on your phone</span><span class="t t-zh">无服务器 · 无账号 · 记录只留在你的手机里</span><span class="t t-es">Sin servidor · sin cuenta · los registros quedan en tu teléfono</span><span class="t t-hi">कोई सर्वर नहीं · कोई खाता नहीं · लॉग सिर्फ़ आपके फ़ोन पर</span><span class="t t-ja">サーバーなし · アカウントなし · 記録は端末の中だけ</span><span class="t t-vi">Không máy chủ · không tài khoản · nhật ký nằm trên máy bạn</span><span class="t t-it">Nessun server · nessun account · i log restano sul telefono</span><span class="t t-ko">서버 없음 · 계정 없음 · 기록은 내 폰에만</span></span></div>
+    </section>
+
+    <section class="video">
+      <h2 class="video-title"><span class="t t-en">Watch the app in action</span><span class="t t-zh">看看 Loop 实际操作</span><span class="t t-es">Mira la app en acción</span><span class="t t-hi">ऐप का प्रीव्यू देखें</span><span class="t t-ja">アプリの動きを見る</span><span class="t t-vi">Xem ứng dụng hoạt động</span><span class="t t-it">Guarda l&#x27;app in azione</span><span class="t t-ko">앱 미리보기</span></h2>
+      <div class="video-frame"><iframe data-video src="https://www.youtube-nocookie.com/embed/KwF9WC3M2cY?rel=0" title="Loop preview" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
     </section>
 
     <section class="shots">
@@ -197,6 +233,22 @@
       </div>
     </section>
 
+    <section class="mcp">
+      <div class="mcp-panel">
+        <span class="ico">🖥️</span>
+        <h2><span class="t t-en">Ask Claude on your PC about your journal</span><span class="t t-zh">在电脑上让 Claude 查询你的记录</span><span class="t t-es">Pregunta por tu diario a Claude en tu PC</span><span class="t t-hi">अपने PC पर Claude से अपनी डायरी के बारे में पूछें</span><span class="t t-ja">PCのClaudeに記録について聞いてみよう</span><span class="t t-vi">Hỏi Claude trên PC về nhật ký của bạn</span><span class="t t-it">Chiedi del tuo diario a Claude sul tuo PC</span><span class="t t-ko">PC의 Claude에게 내 기록을 물어보세요</span></h2>
+        <p><span class="t t-en">Loop pairs with your computer over the same Wi-Fi. Claude Code on your PC can then search your logs to build morning notes and reviews — read-only, and your logs never leave the phone: only queries and answers travel.</span><span class="t t-zh">Loop 与同一 Wi-Fi 下的电脑配对后，电脑上的 Claude Code 可以搜索你的记录，帮你写晨间笔记和回顾。只读访问，记录不会离开手机——传输的只有提问和回答。</span><span class="t t-es">Loop se empareja con tu ordenador por el mismo Wi-Fi. Así Claude Code en tu PC puede buscar en tus registros para crear notas matutinas y repasos: solo lectura, y tus registros nunca salen del teléfono; solo viajan preguntas y respuestas.</span><span class="t t-hi">Loop उसी Wi-Fi पर आपके कंप्यूटर से जुड़ता है। फिर आपके PC पर Claude Code आपके लॉग खोजकर सुबह के नोट्स और समीक्षा बना सकता है — केवल पढ़ने के लिए, और लॉग फ़ोन से बाहर नहीं जाते; सिर्फ़ सवाल-जवाब आते-जाते हैं।</span><span class="t t-ja">同じWi-Fiのパソコンとペアリングすると、PCのClaude Codeが記録を検索して朝のノートや振り返りを作れます。読み取り専用で、記録はスマホの外に出ません。やり取りされるのは質問と回答だけです。</span><span class="t t-vi">Loop ghép nối với máy tính qua cùng một Wi-Fi. Sau đó Claude Code trên PC có thể tìm nhật ký để viết ghi chú buổi sáng và tổng kết — chỉ đọc, và nhật ký không bao giờ rời điện thoại; chỉ câu hỏi và câu trả lời được trao đổi.</span><span class="t t-it">Loop si abbina al computer sulla stessa Wi-Fi. Così Claude Code sul PC può cercare nelle tue note per creare note mattutine e ripassi — sola lettura, e le note non lasciano mai il telefono: viaggiano solo domande e risposte.</span><span class="t t-ko">같은 Wi-Fi의 컴퓨터와 연결하면 PC의 Claude Code가 기록을 검색해 아침 노트와 회고를 만들어 줍니다. 읽기 전용이고, 기록은 폰을 떠나지 않아요 — 오가는 것은 질의와 답뿐이에요.</span></p>
+        <ol class="steps">
+          <li><span class="t t-en">On your computer, install the Loop plugin for Claude Code</span><span class="t t-zh">在电脑上为 Claude Code 安装 Loop 插件</span><span class="t t-es">En tu ordenador, instala el plugin de Loop para Claude Code</span><span class="t t-hi">अपने कंप्यूटर पर Claude Code के लिए Loop प्लगइन इंस्टॉल करें</span><span class="t t-ja">パソコンで Claude Code に Loop プラグインを入れる</span><span class="t t-vi">Trên máy tính, cài plugin Loop cho Claude Code</span><span class="t t-it">Sul computer, installa il plugin di Loop per Claude Code</span><span class="t t-ko">컴퓨터에서 Claude Code에 Loop 플러그인 설치</span></li>
+          <li><span class="t t-en">In Loop: Settings › PC connection › Connect</span><span class="t t-zh">在 Loop 中：设置 › PC 连接 › 连接</span><span class="t t-es">En Loop: Ajustes › Conexión con PC › Conectar</span><span class="t t-hi">Loop में: सेटिंग › PC कनेक्शन › कनेक्ट</span><span class="t t-ja">Loopで：設定 › PC接続 › 接続</span><span class="t t-vi">Trong Loop: Cài đặt › Kết nối PC › Kết nối</span><span class="t t-it">In Loop: Impostazioni › Connessione al PC › Connetti</span><span class="t t-ko">Loop에서: 설정 › PC 연결 › 연결</span></li>
+          <li><span class="t t-en">Type the 8-digit code Claude shows — &#x27;Claude can now search your journal.&#x27;</span><span class="t t-zh">输入 Claude 显示的 8 位配对码 —— “Claude 现在可以搜索你的记录了。”</span><span class="t t-es">Escribe el código de 8 dígitos que muestra Claude: «Claude ya puede buscar en tu diario.»</span><span class="t t-hi">Claude दिखाए 8 अंकों का कोड डालें — &#x27;Claude अब आपकी डायरी खोज सकता है।&#x27;</span><span class="t t-ja">Claudeが表示する8桁のコードを入力 — 「Claudeが自分の記録を検索できるようになりました。」</span><span class="t t-vi">Nhập mã 8 chữ số Claude hiển thị — “Claude giờ có thể tìm kiếm nhật ký của bạn.”</span><span class="t t-it">Digita il codice a 8 cifre che mostra Claude: «Claude ora può cercare nel tuo diario.»</span><span class="t t-ko">Claude가 보여주는 8자리 코드를 입력 — &#x27;Claude가 이제 내 기록을 검색할 수 있어요.&#x27;</span></li>
+        </ol>
+        <pre class="install"><code>/plugin marketplace add devnoyo0123/loop-skill
+/plugin install loop@loop</code></pre>
+        <a class="guide-link" href="https://github.com/devnoyo0123/loop-skill" target="_blank" rel="noopener">🔗 <span class="t t-en">Setup guide — loop-skill on GitHub</span><span class="t t-zh">设置指南 — GitHub 上的 loop-skill</span><span class="t t-es">Guía de configuración — loop-skill en GitHub</span><span class="t t-hi">सेटअप गाइड — GitHub पर loop-skill</span><span class="t t-ja">セットアップガイド — GitHubのloop-skill</span><span class="t t-vi">Hướng dẫn cài đặt — loop-skill trên GitHub</span><span class="t t-it">Guida di configurazione — loop-skill su GitHub</span><span class="t t-ko">설정 가이드 — GitHub의 loop-skill</span></a>
+      </div>
+    </section>
+
     <section class="cta">
       <h2><span class="t t-en">Write today&#x27;s thought — meet it again tomorrow.</span><span class="t t-zh">今天的想法，明天再见面。</span><span class="t t-es">Escribe hoy el pensamiento — reencuéntralo mañana.</span><span class="t t-hi">आज का विचार लिखें — कल दोबारा मिलें।</span><span class="t t-ja">今日のひと言を、明日もう一度。</span><span class="t t-vi">Ghi lại suy nghĩ hôm nay — gặp lại vào ngày mai.</span><span class="t t-it">Scrivi oggi il pensiero — ritrovalo domani.</span><span class="t t-ko">오늘의 생각을, 내일 다시 만나보세요.</span></h2>
       <div class="badge-row"><span class="t t-en"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-en.png" alt="Get it on Google Play"></a></span><span class="t t-zh"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-zh.png" alt="在 Google Play 中获取"></a></span><span class="t t-es"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-es.png" alt="Disponible en Google Play"></a></span><span class="t t-hi"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-hi.png" alt="Google Play पर पाएं"></a></span><span class="t t-ja"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-ja.png" alt="Google Play で手に入れよう"></a></span><span class="t t-vi"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-vi.png" alt="Có trên Google Play"></a></span><span class="t t-it"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-it.png" alt="Disponibile su Google Play"></a></span><span class="t t-ko"><a href="https://play.google.com/store/apps/details?id=com.devnoyo0123.loop" target="_blank" rel="noopener"><img data-badge src="/assets/badge-ko.png" alt="Google Play에서 다운로드"></a></span></div>
@@ -218,6 +270,7 @@
       var TITLES = {"en": "Loop — Daily Timeline Log", "zh": "Loop — 按顺序记录每一天", "es": "Loop — Tu día, en orden", "hi": "Loop — हर दिन, अपने क्रम में", "ja": "Loop — 時間順の一日ログ", "vi": "Loop — Nhật ký theo trình tự", "it": "Loop — Il giorno in ordine", "ko": "Loop : 흘러간 하루의 기록"};
       var BADGES = {"en": "/assets/badge-en.png", "zh": "/assets/badge-zh.png", "es": "/assets/badge-es.png", "hi": "/assets/badge-hi.png", "ja": "/assets/badge-ja.png", "vi": "/assets/badge-vi.png", "it": "/assets/badge-it.png", "ko": "/assets/badge-ko.png"};
       var ALTS = {"en": "Get it on Google Play", "zh": "在 Google Play 中获取", "es": "Disponible en Google Play", "hi": "Google Play पर पाएं", "ja": "Google Play で手に入れよう", "vi": "Có trên Google Play", "it": "Disponibile su Google Play", "ko": "Google Play에서 다운로드"};
+      var VIDEO = {"en": "KwF9WC3M2cY", "zh": "KwF9WC3M2cY", "es": "KwF9WC3M2cY", "hi": "KwF9WC3M2cY", "ja": "KwF9WC3M2cY", "vi": "KwF9WC3M2cY", "it": "KwF9WC3M2cY", "ko": "KwF9WC3M2cY"};
 
       function detect() {
         var n = (navigator.language || "en").toLowerCase();
@@ -241,6 +294,9 @@
         });
         document.querySelectorAll("[data-shot]").forEach(function (img) {
           img.src = "/assets/shots/" + l + "/" + img.dataset.shot + ".webp";
+        });
+        document.querySelectorAll("[data-video]").forEach(function (f) {
+          f.src = "https://www.youtube-nocookie.com/embed/" + VIDEO[l] + "?rel=0";
         });
         try { localStorage.setItem("loop-lang", l); } catch (e) {}
       }
