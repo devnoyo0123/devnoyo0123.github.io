@@ -129,11 +129,23 @@
     .video { padding: 8px 0 56px; text-align: center; }
     .video-title { font-size: clamp(1.2rem, 3vw, 1.5rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 22px; }
     .video-frame {
+      position: relative; display: block;
       max-width: 720px; margin: 0 auto; aspect-ratio: 16 / 9;
       border-radius: 20px; overflow: hidden; border: 1px solid var(--line);
       box-shadow: 0 16px 48px rgba(0, 0, 0, .55); background: var(--surface);
     }
-    .video-frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+    .video-frame img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s; }
+    .video-frame:hover img { transform: scale(1.02); }
+    .video-play {
+      position: absolute; left: 50%; top: 50%; width: 76px; height: 76px; margin: -38px 0 0 -38px;
+      border-radius: 50%; background: rgba(0, 0, 0, .6); border: 2px solid rgba(255, 255, 255, .85);
+      transition: background .2s;
+    }
+    .video-play::after {
+      content: ""; position: absolute; left: 30px; top: 22px;
+      border-style: solid; border-width: 16px 0 16px 26px; border-color: transparent transparent transparent #fff;
+    }
+    .video-frame:hover .video-play { background: rgba(167, 139, 250, .85); }
 
     .mcp { padding: 0 0 64px; }
     .mcp-panel {
@@ -182,7 +194,7 @@
 
     <section class="video">
       <h2 class="video-title"><span class="t t-en">Watch the app in action</span><span class="t t-zh">看看 Loop 实际操作</span><span class="t t-es">Mira la app en acción</span><span class="t t-hi">ऐप का प्रीव्यू देखें</span><span class="t t-ja">アプリの動きを見る</span><span class="t t-vi">Xem ứng dụng hoạt động</span><span class="t t-it">Guarda l&#x27;app in azione</span><span class="t t-ko">앱 미리보기</span></h2>
-      <div class="video-frame"><iframe data-video src="https://www.youtube-nocookie.com/embed/KwF9WC3M2cY?rel=0" title="Loop preview" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+      <a class="video-frame" data-video href="https://youtu.be/A6dQJitaeX4" target="_blank" rel="noopener" aria-label="Loop preview on YouTube"><img src="https://i.ytimg.com/vi/A6dQJitaeX4/maxresdefault.jpg" alt="Loop preview" loading="lazy"><span class="video-play"></span></a>
     </section>
 
     <section class="shots">
@@ -270,7 +282,7 @@
       var TITLES = {"en": "Loop — Daily Timeline Log", "zh": "Loop — 按顺序记录每一天", "es": "Loop — Tu día, en orden", "hi": "Loop — हर दिन, अपने क्रम में", "ja": "Loop — 時間順の一日ログ", "vi": "Loop — Nhật ký theo trình tự", "it": "Loop — Il giorno in ordine", "ko": "Loop : 흘러간 하루의 기록"};
       var BADGES = {"en": "/assets/badge-en.png", "zh": "/assets/badge-zh.png", "es": "/assets/badge-es.png", "hi": "/assets/badge-hi.png", "ja": "/assets/badge-ja.png", "vi": "/assets/badge-vi.png", "it": "/assets/badge-it.png", "ko": "/assets/badge-ko.png"};
       var ALTS = {"en": "Get it on Google Play", "zh": "在 Google Play 中获取", "es": "Disponible en Google Play", "hi": "Google Play पर पाएं", "ja": "Google Play で手に入れよう", "vi": "Có trên Google Play", "it": "Disponibile su Google Play", "ko": "Google Play에서 다운로드"};
-      var VIDEO = {"en": "KwF9WC3M2cY", "zh": "KwF9WC3M2cY", "es": "KwF9WC3M2cY", "hi": "KwF9WC3M2cY", "ja": "KwF9WC3M2cY", "vi": "KwF9WC3M2cY", "it": "KwF9WC3M2cY", "ko": "KwF9WC3M2cY"};
+      var VIDEO = {"en": "A6dQJitaeX4", "zh": "VKvpsoUAerc", "es": "8H8QB_imYXA", "hi": "2wXDdcmTxsk", "ja": "WawnTOkuQ_w", "vi": "WSnocx7TOwo", "it": "OaUJD0OKM2Y", "ko": "KwF9WC3M2cY"};
 
       function detect() {
         var n = (navigator.language || "en").toLowerCase();
@@ -295,8 +307,9 @@
         document.querySelectorAll("[data-shot]").forEach(function (img) {
           img.src = "/assets/shots/" + l + "/" + img.dataset.shot + ".webp";
         });
-        document.querySelectorAll("[data-video]").forEach(function (f) {
-          f.src = "https://www.youtube-nocookie.com/embed/" + VIDEO[l] + "?rel=0";
+        document.querySelectorAll("[data-video]").forEach(function (a) {
+          a.href = "https://youtu.be/" + VIDEO[l];
+          a.querySelector("img").src = "https://i.ytimg.com/vi/" + VIDEO[l] + "/maxresdefault.jpg";
         });
         try { localStorage.setItem("loop-lang", l); } catch (e) {}
       }
